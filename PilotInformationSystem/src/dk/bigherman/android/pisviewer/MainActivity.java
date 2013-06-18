@@ -1,7 +1,6 @@
 package dk.bigherman.android.pisviewer;
 
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -57,19 +56,12 @@ import dk.bigherman.android.pisviewer.DataBaseHelper;
 public class MainActivity extends FragmentActivity 
 {
 	GoogleMap gMap;
-	String serverIP = "86.52.111.181";
+	String serverIP = getResources().getString(R.string.server_ip);
 	//private enum Colour{BLU, WHT, GRN, YLO, AMB, RED, BLK, NIL};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
-		
-		if (android.os.Build.VERSION.SDK_INT > 9) {
-			StrictMode.ThreadPolicy policy = 
-			        new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy);
-			}
-		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
@@ -150,7 +142,7 @@ public class MainActivity extends FragmentActivity
 	    	String metar, colour;
 	    	
 	    	EditText icaoText = (EditText) findViewById(R.id.edit_icao);
-	    	String icaoCode = icaoText.getText().toString().toUpperCase();
+	    	String icaoCode = icaoText.getText().toString();
 	    	
 	    	Log.i("airfields", "Start db load");
             try 
@@ -187,8 +179,8 @@ public class MainActivity extends FragmentActivity
 	    
 			TextView textMetar = (TextView) findViewById(R.id.text_metar);
 			textMetar.setText(metar);
- 
-    	 	Log.i("airfields", "Next airfield call, NE=" + mapBounds.northeast.toString());
+			
+			Log.i("airfields", "Next airfield call, NE=" + mapBounds.northeast.toString());
     	 	int icon_state=R.drawable.icn_empty;
                       
             for (int i=0; i<airfields.size();i++)
